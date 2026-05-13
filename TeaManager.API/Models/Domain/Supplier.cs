@@ -1,5 +1,3 @@
-using System.Net.Http.Headers;
-
 namespace TeaManager.API.Models.Domain
 {
     public class Supplier

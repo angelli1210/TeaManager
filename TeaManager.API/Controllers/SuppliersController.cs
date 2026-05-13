@@ -68,18 +68,11 @@ namespace TeaManager.API.Controllers
         [HttpPost]
         public IActionResult CreateSupplier([FromBody] CreateSupplierRequestDTO createDto)
         {
-            //BrandId to check for BrandId duplicates
+            //SupplierId to check for duplicates
             if (_dbContext.Suppliers.Any(s => s.SupplierId == createDto.SupplierId))
             {
-                return BadRequest(new { message = $"BrandId {createDto.SupplierId} already exists." });
+                return BadRequest(new { message = $"SupplierId {createDto.SupplierId} already exists." });
             }
-
-            //Validate Email duplicates (+ prevent create brand account with same email)
-            if (_dbContext.Suppliers.Any(s => s.ContactEmail == createDto.ContactEmail))
-            {
-                return BadRequest(new { message = $"Email '{createDto.ContactEmail}' already exists." });
-            }
-
 
             var supplier = new Supplier
             {
@@ -128,11 +121,6 @@ namespace TeaManager.API.Controllers
             {
                 return NotFound(new { message = $"Supplier with ID {supplierId} not found." });
             }
-            //Check for email duplicates (if update email)
-            if (_dbContext.Suppliers.Any(s => s.ContactEmail == updateDto.ContactEmail && s.SupplierId != supplierId))
-            {
-                return BadRequest(new { message = $"Email '{updateDto.ContactEmail}' is already used by another supplier." });
-            }
 
             supplier.SupplierName = updateDto.SupplierName;
             supplier.Country = updateDto.Country;
@@ -160,7 +148,7 @@ namespace TeaManager.API.Controllers
         //================================
         [HttpDelete]
         [Route("{supplierId:int}")]
-        public IActionResult DeleteBrand([FromRoute] int supplierId)
+        public IActionResult DeleteSupplier([FromRoute] int supplierId)
         {
             var supplier = _dbContext.Suppliers.FirstOrDefault(s => s.SupplierId == supplierId);
             if (supplier == null)
