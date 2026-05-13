@@ -12,7 +12,7 @@ namespace TeaManager.API.Controllers
         private readonly TeaManagerDbContext _dbContext = dbContext;
 
         //=================
-        //GET/api/supplier - get all suppliers
+        //GET/api/suppliers - get all suppliers
         //=================
         [HttpGet]
         public IActionResult GetAllSuppliers()
@@ -37,7 +37,7 @@ namespace TeaManager.API.Controllers
         }
 
         //=================
-        //GET/api/supplier/{supplierId}- get a single supplier by id
+        //GET/api/suppliers/{supplierId}- get a single supplier by id
         //=================
         [HttpGet]
         [Route("{supplierId:int}")]
@@ -63,7 +63,7 @@ namespace TeaManager.API.Controllers
         }
 
         //=================
-        //POST/api/supplier - create a new supplier
+        //POST/api/suppliers - create a new supplier
         //=================
         [HttpPost]
         public IActionResult CreateSupplier([FromBody] CreateSupplierRequestDTO createDto)
@@ -108,7 +108,7 @@ namespace TeaManager.API.Controllers
         }
 
         //=================
-        //PUT/api/supplier/{supplierId} - update an existing supplier
+        //PUT/api/suppliers/{supplierId} - update an existing supplier
         //=================
         [HttpPut]
         [Route("{supplierId:int}")]
@@ -144,7 +144,7 @@ namespace TeaManager.API.Controllers
         }
 
         //================================
-        //DELETE/api/supplier/{supplierId}
+        //DELETE/api/suppliers/{supplierId}
         //================================
         [HttpDelete]
         [Route("{supplierId:int}")]
