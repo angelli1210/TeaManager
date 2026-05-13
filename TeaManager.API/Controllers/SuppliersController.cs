@@ -12,7 +12,7 @@ namespace TeaManager.API.Controllers
         private readonly TeaManagerDbContext _dbContext = dbContext;
 
         //=================
-        //GET/api/brand - get all brands
+        //GET/api/supplier - get all suppliers
         //=================
         [HttpGet]
         public IActionResult GetAllSuppliers()
@@ -37,7 +37,7 @@ namespace TeaManager.API.Controllers
         }
 
         //=================
-        //GET/api/brand/{brandId}- get a single supplier by id
+        //GET/api/supplier/{supplierId}- get a single supplier by id
         //=================
         [HttpGet]
         [Route("{supplierId:int}")]
@@ -63,7 +63,7 @@ namespace TeaManager.API.Controllers
         }
 
         //=================
-        //POST/api/brand - create a new supplier
+        //POST/api/supplier - create a new supplier
         //=================
         [HttpPost]
         public IActionResult CreateSupplier([FromBody] CreateSupplierRequestDTO createDto)
@@ -87,39 +87,30 @@ namespace TeaManager.API.Controllers
                 SupplierId = createDto.SupplierId,
                 SupplierName = createDto.SupplierName,
                 Country = createDto.Country,
-                FoundedYear = createDto.FoundedYear,
-                Email = createDto.Email,
-                Password = hashedPassword,
+                ContactEmail = createDto.ContactEmail,
                 Phone = createDto.Phone,
-                Address = createDto.Address,
-                BusinessRegNumber = createDto.BusinessRegNumber,
-                OwnerName = createDto.OwnerName,
                 CreatedAt = DateTime.UtcNow
             };
 
-            _dbContext.Brands.Add(brand);
+            _dbContext.Suppliers.Add(supplier);
             _dbContext.SaveChanges();
 
 
-            //Return DTO (Exclude password)
-            var brandDto = new BrandDTO
+            //Return DTO
+            var supplierDto = new SupplierDTO
             {
-                Id = brand.Id,
-                BrandId = brand.BrandId,
-                BrandName = brand.BrandName,
-                Country = brand.Country,
-                FoundedYear = brand.FoundedYear,
-                Email = brand.Email,
-                Phone = brand.Phone,
-                Address = brand.Address,
-                BusinessRegNumber = brand.BusinessRegNumber,
-                OwnerName = brand.OwnerName,
-                CreatedAt = brand.CreatedAt
+                Id = supplier.Id,
+                SupplierId = supplier.SupplierId,
+                SupplierName = supplier.SupplierName,
+                Country = supplier.Country,
+                ContactEmail = supplier.ContactEmail,
+                Phone = supplier.Phone,
+                CreatedAt = supplier.CreatedAt
             };
             return CreatedAtAction(
-                nameof(GetBrandById),
-                new { brandId = brand.BrandId },
-                brandDto
+                nameof(GetSupplierById),
+                new { supplierId = supplier.SupplierId },
+                supplierDto
             );
         }
 

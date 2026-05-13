@@ -10,7 +10,7 @@ namespace TeaManager.API.Models.DTO
 
         [Required(ErrorMessage = "Supplier name is required.")]
         [StringLength(100, MinimumLength = 2, ErrorMessage = "Supplier name must be between 2 and 100 characters.")]
-        public required string BrandName { get; set; }
+        public required string SupplierName { get; set; }
 
         [Required]
         [StringLength(100)]
