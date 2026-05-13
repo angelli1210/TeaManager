@@ -115,7 +115,7 @@ namespace TeaManager.API.Controllers
         }
 
         //=================
-        //PUT/api/supplier/{supplierId} - update an existing brand (with hashed password)
+        //PUT/api/supplier/{supplierId} - update an existing supplier
         //=================
         [HttpPut]
         [Route("{supplierId:int}")]
@@ -156,19 +156,19 @@ namespace TeaManager.API.Controllers
         }
 
         //================================
-        //DELETE/api/brands/{brandId}
+        //DELETE/api/supplier/{supplierId}
         //================================
         [HttpDelete]
-        [Route("{brandId:int}")]
-        public IActionResult DeleteBrand([FromRoute] int brandId)
+        [Route("{supplierId:int}")]
+        public IActionResult DeleteBrand([FromRoute] int supplierId)
         {
-            var brand = _dbContext.Brands.FirstOrDefault(b => b.BrandId == brandId);
-            if (brand == null)
+            var supplier = _dbContext.Suppliers.FirstOrDefault(s => s.SupplierId == supplierId);
+            if (supplier == null)
             {
-                return NotFound(new { message = $"Brand with ID {brandId} not found." });
+                return NotFound(new { message = $"Supplier with ID {supplierId} not found." });
             }
 
-            _dbContext.Brands.Remove(brand);
+            _dbContext.Suppliers.Remove(supplier);
             _dbContext.SaveChanges();
 
             return NoContent();
