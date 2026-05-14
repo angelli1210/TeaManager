@@ -1,0 +1,11 @@
+namespace TeaManager.API.Models.DTO;
+
+public class SupplierOrderDTO
+{
+        public Guid Id { get; set; }
+        public int SupplierOrderId { get; set; }
+        public int Quantity { get; set; }
+        public DateTime OrderDate { get; set; }
+        public string? Remark { get; set; }//Nullable
+        public DateTime CreatedAt { get; set; }
+}
