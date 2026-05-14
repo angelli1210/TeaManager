@@ -49,9 +49,9 @@ namespace TeaManager.API.Controllers
         public IActionResult GetSupplierOrderById([FromRoute] int supplierOrderId)
         {
             var supplierOrder = _dbContext.SupplierOrders
-                .Include(so => so.Product) //Join with brands
+                .Include(p => p.Product) //Join with brands
                 .Include(s => s.Supplier) // Join with suppliers
-                .FirstOrDefault(p => p.SupplierOrderId == supplierOrderId);
+                .FirstOrDefault(so => so.SupplierOrderId == supplierOrderId);
             if (supplierOrder == null)
             {
                 return NotFound(new { message = $"Supplier Order with ID {supplierOrderId} not found." });
@@ -130,16 +130,16 @@ namespace TeaManager.API.Controllers
             };
             return CreatedAtAction(
                 nameof(GetSupplierOrderById),
-                new { SupplierOrderId = supplierOrder.SupplierOrderId },
+                new { supplierOrderId = supplierOrder.SupplierOrderId },
                 supplierOrderDto
             );
         }
 
         //=================
-        //PUT/api/supplierOrders/{supplierId} - update an existing Product
+        //PUT/api/supplierOrders/{supplierId} 
         //=================
         [HttpPut]
-        [Route("{SupplierOrderId:int}")]
+        [Route("{supplierOrderId:int}")]
         public IActionResult UpdateSupplierOrder(
             [FromRoute] int supplierOrderId,
             [FromBody] UpdateSupplierOrderRequestDTO updateDto)
@@ -162,7 +162,7 @@ namespace TeaManager.API.Controllers
             var product = _dbContext.Products.FirstOrDefault(p => p.ProductId == updateDto.ProductId);
             if (product == null)
             {
-                return BadRequest(new { message = $"product with ID {updateDto.ProductId} does not exist." });
+                return BadRequest(new { message = $"Product with ID {updateDto.ProductId} does not exist." });
             }
 
             supplierOrder.Quantity = updateDto.Quantity;

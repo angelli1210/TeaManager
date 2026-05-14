@@ -12,7 +12,7 @@ namespace TeaManager.API.Controllers
         private readonly TeaManagerDbContext _dbContext = dbContext;
 
         //=================
-        //GET/api/brand - get all brands
+        //GET/api/brands - get all brands
         //=================
         [HttpGet]
         public IActionResult GetAllBrands()
@@ -41,7 +41,7 @@ namespace TeaManager.API.Controllers
         }
 
         //=================
-        //GET/api/brand/{brandId}- get a single brand by id
+        //GET/api/brands/{brandId}- get a single brand by id
         //=================
         [HttpGet]
         [Route("{brandId:int}")]
@@ -71,12 +71,12 @@ namespace TeaManager.API.Controllers
         }
 
         //=================
-        //POST/api/brand - create a new brand (with hashed password)
+        //POST/api/brands - create a new brand (with hashed password)
         //=================
         [HttpPost]
         public IActionResult CreateBrand([FromBody] CreateBrandRequestDTO createDto)
         {
-            //BrandId to check for BrandId duplicates
+            //BrandId to check duplicates
             if (_dbContext.Brands.Any(b => b.BrandId == createDto.BrandId))
             {
                 return BadRequest(new { message = $"BrandId {createDto.BrandId} already exists." });
@@ -87,7 +87,7 @@ namespace TeaManager.API.Controllers
             {
                 return BadRequest(new { message = $"Email '{createDto.Email}' already exists." });
             }
-            //Hash the password (with salf automatically generated)
+            //Hash the password (with salt automatically generated)
             string hashedPassword = BCrypt.Net.BCrypt.HashPassword(createDto.Password);
 
             var brand = new Brand
@@ -133,7 +133,7 @@ namespace TeaManager.API.Controllers
         }
 
         //=================
-        //PUT/api/brand/{brandId} - update an existing brand (with hashed password)
+        //PUT/api/brands/{brandId} - update an existing brand (with hashed password)
         //=================
         [HttpPut]
         [Route("{brandId:int}")]
