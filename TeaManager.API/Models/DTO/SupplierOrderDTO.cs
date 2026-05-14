@@ -8,4 +8,9 @@ public class SupplierOrderDTO
         public DateTime OrderDate { get; set; }
         public string? Remark { get; set; }//Nullable
         public DateTime CreatedAt { get; set; }
+
+        //Foregin keys
+        public int SupplierId { get; set; }
+        public int ProductId { get; set; }
+
 }

@@ -1,5 +1,3 @@
-using TeaManager.API.Models.Domain;
-
 namespace TeaManager.API.Models.Domain
 {
     public class SupplierOrder
@@ -11,7 +9,7 @@ namespace TeaManager.API.Models.Domain
         public string? Remark { get; set; }//Nullable
         public DateTime CreatedAt { get; set; }
 
-        //Foregin keys
+        //Foreign keys
         public Guid SupplierId { get; set; }
         public Guid ProductId { get; set; }
 

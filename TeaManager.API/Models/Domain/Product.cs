@@ -16,7 +16,7 @@ namespace TeaManager.API.Models.Domain
         public required string Origin { get; set; }
         public DateTime CreatedAt { get; set; }
 
-        //Foregin keys
+        //Foreign keys
         public Guid BrandId { get; set; }
         public Guid SupplierId { get; set; }
 
