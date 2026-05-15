@@ -5,7 +5,7 @@ namespace TeaManager.API.Models.DTO
     public class CreateSupplierRequestDTO
     {
         [Required]
-        [Range(1, int.MaxValue, ErrorMessage = "BrandId must be greater than 0.")]
+        [Range(1, int.MaxValue, ErrorMessage = "SupplierId must be greater than 0.")]
         public int SupplierId { get; set; }
 
         [Required(ErrorMessage = "Supplier name is required.")]
