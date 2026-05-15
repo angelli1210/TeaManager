@@ -19,7 +19,7 @@ namespace TeaManager.API.Models.DTO
         [Required, Range(0, int.MaxValue)]
         public int Stock { get; set; }
 
-        [Required, Range(1900, 2100)]
+        [Required, Range(2015, 2026)]
         public int HarvestYear { get; set; }
 
         [Required, StringLength(200)]

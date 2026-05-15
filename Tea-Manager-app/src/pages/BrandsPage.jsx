@@ -33,7 +33,7 @@ export default function BrandsPage() {
     if (!form.country) e.country = 'Required';
     if (!form.email || !/\S+@\S+\.\S+/.test(form.email)) e.email = 'Valid email required';
     if (!form.ownerName) e.ownerName = 'Required';
-    if (!form.foundedYear || form.foundedYear < 1500 || form.foundedYear > 2026) e.foundedYear = '1500–2026';
+    if (!form.foundedYear || form.foundedYear < 1800 || form.foundedYear > 2026) e.foundedYear = '1800–2026';
     setFormErrors(e);
     return Object.keys(e).length === 0;
   };
@@ -143,7 +143,7 @@ export default function BrandsPage() {
                 <Field label="Brand Name" field="brandName" placeholder="e.g. TianHu" required />
               </div>
               <Field label="Country" field="country" placeholder="e.g. China" required />
-              <Field label="Founded Year" field="foundedYear" type="number" placeholder="1998" required min={1500} max={2026} />
+              <Field label="Founded Year" field="foundedYear" type="number" placeholder="1998" required min={1800} max={2026} />
               <Field label="Owner Name" field="ownerName" placeholder="e.g. Li Wei" required />
               <Field label="Email" field="email" type="email" placeholder="brand@email.com" required />
               <Field label="Phone" field="phone" placeholder="+86-21-5555" />

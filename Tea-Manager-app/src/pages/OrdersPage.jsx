@@ -154,12 +154,12 @@ export default function OrdersPage() {
               </div>
               <div>
                 <label className="block text-xs font-semibold text-gray-600 mb-1.5">Quantity <span className="text-red-400">*</span></label>
-                <input type="number" value={form.quantity} onChange={e => setForm({ ...form, quantity: e.target.value })} className="w-full border border-gray-200 rounded-xl px-3.5 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-green-500" placeholder="0" />
+                <input type="number" value={form.quantity} onChange={e => setForm({ ...form, quantity: e.target.value })} min="1" className="w-full border border-gray-200 rounded-xl px-3.5 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-green-500" placeholder="0" />
                 {formErrors.quantity && <p className="text-red-400 text-xs mt-1">{formErrors.quantity}</p>}
               </div>
               <div>
                 <label className="block text-xs font-semibold text-gray-600 mb-1.5">Order Date <span className="text-red-400">*</span></label>
-                <input type="date" value={form.orderDate} onChange={e => setForm({ ...form, orderDate: e.target.value })} className="w-full border border-gray-200 rounded-xl px-3.5 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-green-500" />
+                <input type="date" value={form.orderDate} max={new Date().toISOString().split('T')[0]} onChange={e => setForm({ ...form, orderDate: e.target.value })} className="w-full border border-gray-200 rounded-xl px-3.5 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-green-500" />
                 {formErrors.orderDate && <p className="text-red-400 text-xs mt-1">{formErrors.orderDate}</p>}
               </div>
             </div>

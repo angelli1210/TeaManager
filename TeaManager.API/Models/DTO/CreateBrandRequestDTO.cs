@@ -17,7 +17,7 @@ namespace TeaManager.API.Models.DTO
         public required string Country { get; set; }
 
         [Required]
-        [Range(1500, 2026, ErrorMessage = "Founded year must be between 1500 and 2026.")]
+        [Range(1800, 2026, ErrorMessage = "Founded year must be between 1800 and 2026.")]
         public int FoundedYear { get; set; }
 
         [Required]

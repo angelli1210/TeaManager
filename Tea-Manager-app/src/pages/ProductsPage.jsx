@@ -37,7 +37,7 @@ export default function ProductsPage() {
     if (!form.description) e.description = 'Required';
     if (!form.price || form.price <= 0) e.price = 'Must be > 0';
     if (form.stock === '' || form.stock < 0) e.stock = 'Must be ≥ 0';
-    if (!form.harvestYear || form.harvestYear < 1900 || form.harvestYear > 2100) e.harvestYear = '1900–2100';
+    if (!form.harvestYear || form.harvestYear < 2015 || form.harvestYear > 2026) e.harvestYear = '2015–2026';
     if (!form.origin) e.origin = 'Required';
     if (!form.brandId) e.brandId = 'Select a brand';
     if (!form.supplierId) e.supplierId = 'Select a supplier';
@@ -194,7 +194,7 @@ export default function ProductsPage() {
               </div>
               <div>
                 <label className="block text-xs font-semibold text-gray-600 mb-1.5">Harvest Year <span className="text-red-400">*</span></label>
-                <input type="number" value={form.harvestYear} onChange={e => setForm({ ...form, harvestYear: e.target.value })} min="1900" max="2026" className="w-full border border-gray-200 rounded-xl px-3.5 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-green-500" placeholder="2024" />
+                <input type="number" value={form.harvestYear} onChange={e => setForm({ ...form, harvestYear: e.target.value })} min="2015" max="2026" className="w-full border border-gray-200 rounded-xl px-3.5 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-green-500" placeholder="2024" />
                 {formErrors.harvestYear && <p className="text-red-400 text-xs mt-1">{formErrors.harvestYear}</p>}
               </div>
             </div>
