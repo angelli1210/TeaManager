@@ -3,7 +3,6 @@ import { orderService, productService, supplierService } from '../services/api';
 import ConfirmModal from '../components/common/ConfirmModal';
 
 const emptyForm = { supplierOrderId: '', productId: '', supplierId: '', quantity: '', orderDate: '' };
-const statusColor = (s) => ({ Delivered: 'bg-green-100 text-green-700', Pending: 'bg-yellow-100 text-yellow-700', Shipped: 'bg-blue-100 text-blue-700', Cancelled: 'bg-red-100 text-red-600' }[s] || 'bg-gray-100 text-gray-600');
 
 export default function OrdersPage() {
   const [orders, setOrders] = useState([]);
