@@ -16,7 +16,7 @@ export default function OverviewPage() {
   const [counts, setCounts] = useState({ products: 0, brands: 0, suppliers: 0, orders: 0 });
   const [recentProducts, setRecentProducts] = useState([]);
   const [loading, setLoading] = useState(true);
-
+  const [error, setError] = useState('');
   useEffect(() => {
     Promise.all([
       productService.getAll(),
@@ -28,7 +28,7 @@ export default function OverviewPage() {
         setCounts({ products: p.data.length, brands: b.data.length, suppliers: s.data.length, orders: o.data.length });
         setRecentProducts(p.data.slice(0, 5));
       })
-      .catch(() => { })
+      .catch(() => setError('Failed to load dashboard data.'))
       .finally(() => setLoading(false));
   }, []);
 
@@ -38,13 +38,16 @@ export default function OverviewPage() {
     return 'bg-red-100 text-red-600';
   };
 
+  //Greeting section
+  const hour = new Date().getHours();//Greeting message based on current time
+  const greeting = hour < 12 ? 'Good morning' : hour < 18 ? 'Good afternoon' : 'Good evening';
   return (
     <div>
       <div className="mb-6">
-        <h2 className="text-xl font-bold text-gray-900">Good morning, Admin !</h2>
+        <h2 className="text-xl font-bold text-gray-900">{greeting}, Admin !</h2>
         <p className="text-sm text-gray-500 mt-0.5">Here's what's happening with your tea business today.</p>
       </div>
-
+      {error && <p className="text-red-500 text-sm mb-3">{error}</p>}
       {loading ? (
         <div className="flex items-center justify-center h-40 text-gray-400 text-sm">Loading...</div>
       ) : (
@@ -88,6 +91,11 @@ export default function OverviewPage() {
                     </td>
                   </tr>
                 ))}
+                {recentProducts.length === 0 && (
+                  <tr>
+                    <td colSpan={5} className="py-6 text-center text-gray-400 text-sm">No products yet.</td>
+                  </tr>
+                )}
               </tbody>
             </table>
           </div>

@@ -9,7 +9,7 @@ export default function ProductsPage() {
   const [brands, setBrands] = useState([]);
   const [suppliers, setSuppliers] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState('');
+  const [error, setError] = useState(''); //error state
   const [search, setSearch] = useState('');
 
   const [modalOpen, setModalOpen] = useState(false);
