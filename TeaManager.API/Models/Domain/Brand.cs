@@ -8,7 +8,6 @@ namespace TeaManager.API.Models.Domain
         public required string Country { get; set; }
         public int FoundedYear { get; set; }
         public required string Email { get; set; }
-        public required string Password { get; set; }
         public required string Phone { get; set; }
         public required string Address { get; set; }
         public required string BusinessRegNumber { get; set; }

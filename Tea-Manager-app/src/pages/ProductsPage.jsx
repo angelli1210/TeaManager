@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { productService, brandService, supplierService } from '../services/api';
+import { productService, brandService, supplierService } from '../API/api';
 import ConfirmModal from '../components/common/ConfirmModal';
 
 const emptyForm = { productId: '', productName: '', description: '', price: '', stock: '', harvestYear: '', origin: '', brandId: '', supplierId: '' };
@@ -147,7 +147,7 @@ export default function ProductsPage() {
               {!editingId && (
                 <div>
                   <label className="block text-xs font-semibold text-gray-600 mb-1.5">Product ID <span className="text-red-400">*</span></label>
-                  <input type="number" value={form.productId} onChange={e => setForm({ ...form, productId: e.target.value })} className="w-full border border-gray-200 rounded-xl px-3.5 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-green-500" />
+                  <input type="number" value={form.productId} onChange={e => setForm({ ...form, productId: e.target.value })} min="1" className="w-full border border-gray-200 rounded-xl px-3.5 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-green-500" />
                   {formErrors.productId && <p className="text-red-400 text-xs mt-1">{formErrors.productId}</p>}
                 </div>
               )}
@@ -163,12 +163,12 @@ export default function ProductsPage() {
               </div>
               <div>
                 <label className="block text-xs font-semibold text-gray-600 mb-1.5">Price ($) <span className="text-red-400">*</span></label>
-                <input type="number" step="0.01" value={form.price} onChange={e => setForm({ ...form, price: e.target.value })} className="w-full border border-gray-200 rounded-xl px-3.5 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-green-500" placeholder="0.00" />
+                <input type="number" step="0.01" min="0.01" value={form.price} onChange={e => setForm({ ...form, price: e.target.value })} className="w-full border border-gray-200 rounded-xl px-3.5 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-green-500" placeholder="0.00" />
                 {formErrors.price && <p className="text-red-400 text-xs mt-1">{formErrors.price}</p>}
               </div>
               <div>
                 <label className="block text-xs font-semibold text-gray-600 mb-1.5">Stock <span className="text-red-400">*</span></label>
-                <input type="number" value={form.stock} onChange={e => setForm({ ...form, stock: e.target.value })} className="w-full border border-gray-200 rounded-xl px-3.5 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-green-500" placeholder="0" />
+                <input type="number" min="0" value={form.stock} onChange={e => setForm({ ...form, stock: e.target.value })} className="w-full border border-gray-200 rounded-xl px-3.5 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-green-500" placeholder="0" />
                 {formErrors.stock && <p className="text-red-400 text-xs mt-1">{formErrors.stock}</p>}
               </div>
               <div>
@@ -194,7 +194,7 @@ export default function ProductsPage() {
               </div>
               <div>
                 <label className="block text-xs font-semibold text-gray-600 mb-1.5">Harvest Year <span className="text-red-400">*</span></label>
-                <input type="number" value={form.harvestYear} onChange={e => setForm({ ...form, harvestYear: e.target.value })} className="w-full border border-gray-200 rounded-xl px-3.5 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-green-500" placeholder="2024" />
+                <input type="number" value={form.harvestYear} onChange={e => setForm({ ...form, harvestYear: e.target.value })} min="1900" max="2026" className="w-full border border-gray-200 rounded-xl px-3.5 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-green-500" placeholder="2024" />
                 {formErrors.harvestYear && <p className="text-red-400 text-xs mt-1">{formErrors.harvestYear}</p>}
               </div>
             </div>

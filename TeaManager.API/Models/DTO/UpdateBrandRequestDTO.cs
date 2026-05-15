@@ -23,13 +23,6 @@ namespace TeaManager.API.Models.DTO
         public required string Email { get; set; }
 
         [Required]
-        [StringLength(100, MinimumLength = 8, ErrorMessage = "Password must be 8-100 characters.")]
-        [RegularExpression(
-            @"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&#^()_+=\-]).+$",
-            ErrorMessage = "Password must contain at least one uppercase letter, one lowercase letter, one number, and one special character.")]
-        public required string Password { get; set; }
-
-        [Required]
         [Phone(ErrorMessage = "Invalid phone number format.")]
         public required string Phone { get; set; }
 

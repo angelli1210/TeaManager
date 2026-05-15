@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { productService, brandService, supplierService, orderService } from '../services/api';
+import { productService, brandService, supplierService, orderService } from '../API/api';
 
 const StatCard = ({ label, value, sub, color, icon }) => (
   <div className="bg-white rounded-2xl p-5 border border-gray-100 shadow-sm card-hover">

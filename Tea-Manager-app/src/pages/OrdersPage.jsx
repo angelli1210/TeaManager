@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { orderService, productService, supplierService } from '../services/api';
+import { orderService, productService, supplierService } from '../API/api';
 import ConfirmModal from '../components/common/ConfirmModal';
 
 const emptyForm = { supplierOrderId: '', productId: '', supplierId: '', quantity: '', orderDate: '' };

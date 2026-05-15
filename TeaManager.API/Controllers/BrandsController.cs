@@ -71,7 +71,7 @@ namespace TeaManager.API.Controllers
         }
 
         //=================
-        //POST/api/brands - create a new brand (with hashed password)
+        //POST/api/brands - create a new brand
         //=================
         [HttpPost]
         public IActionResult CreateBrand([FromBody] CreateBrandRequestDTO createDto)
@@ -87,8 +87,6 @@ namespace TeaManager.API.Controllers
             {
                 return BadRequest(new { message = $"Email '{createDto.Email}' already exists." });
             }
-            //Hash the password (with salt automatically generated)
-            string hashedPassword = BCrypt.Net.BCrypt.HashPassword(createDto.Password);
 
             var brand = new Brand
             {
@@ -98,7 +96,6 @@ namespace TeaManager.API.Controllers
                 Country = createDto.Country,
                 FoundedYear = createDto.FoundedYear,
                 Email = createDto.Email,
-                Password = hashedPassword,
                 Phone = createDto.Phone,
                 Address = createDto.Address,
                 BusinessRegNumber = createDto.BusinessRegNumber,
@@ -110,7 +107,7 @@ namespace TeaManager.API.Controllers
             _dbContext.SaveChanges();
 
 
-            //Return DTO (Exclude password)
+            //Return DTO
             var brandDto = new BrandDTO
             {
                 Id = brand.Id,
@@ -133,7 +130,7 @@ namespace TeaManager.API.Controllers
         }
 
         //=================
-        //PUT/api/brands/{brandId} - update an existing brand (with hashed password)
+        //PUT/api/brands/{brandId} - update an existing brand
         //=================
         [HttpPut]
         [Route("{brandId:int}")]
@@ -156,7 +153,6 @@ namespace TeaManager.API.Controllers
             brand.Country = updateDto.Country;
             brand.FoundedYear = updateDto.FoundedYear;
             brand.Email = updateDto.Email;
-            brand.Password = BCrypt.Net.BCrypt.HashPassword(updateDto.Password);
             brand.Phone = updateDto.Phone;
             brand.Address = updateDto.Address;
             brand.BusinessRegNumber = updateDto.BusinessRegNumber;

@@ -1,12 +1,11 @@
 {
   "version": 2,
-  "dgSpecHash": "wQco/WHAdFs=",
+  "dgSpecHash": "HmpZbaAr134=",
   "success": true,
   "projectFilePath": "E:\\PE2\\Asg_1\\TeaManager.API\\TeaManager.API.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Angel Lee\\.nuget\\packages\\azure.core\\1.47.1\\azure.core.1.47.1.nupkg.sha512",
     "C:\\Users\\Angel Lee\\.nuget\\packages\\azure.identity\\1.14.2\\azure.identity.1.14.2.nupkg.sha512",
-    "C:\\Users\\Angel Lee\\.nuget\\packages\\bcrypt.net-next\\4.0.3\\bcrypt.net-next.4.0.3.nupkg.sha512",
     "C:\\Users\\Angel Lee\\.nuget\\packages\\humanizer.core\\2.14.1\\humanizer.core.2.14.1.nupkg.sha512",
     "C:\\Users\\Angel Lee\\.nuget\\packages\\microsoft.aspnetcore.openapi\\10.0.5\\microsoft.aspnetcore.openapi.10.0.5.nupkg.sha512",
     "C:\\Users\\Angel Lee\\.nuget\\packages\\microsoft.bcl.asyncinterfaces\\8.0.0\\microsoft.bcl.asyncinterfaces.8.0.0.nupkg.sha512",

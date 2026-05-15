@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react';
-import { brandService } from '../services/api';
+import { brandService } from '../API/api';
 import ConfirmModal from '../components/common/ConfirmModal';
 
-const emptyForm = { brandId: '', brandName: '', country: '', foundedYear: '', email: '', password: '', phone: '', address: '', businessRegNumber: '', ownerName: '' };
+const emptyForm = { brandId: '', brandName: '', country: '', foundedYear: '', email: '', phone: '', address: '', businessRegNumber: '', ownerName: '' };
 
 export default function BrandsPage() {
   const [brands, setBrands] = useState([]);
@@ -32,16 +32,15 @@ export default function BrandsPage() {
     if (!form.brandName || form.brandName.length < 2) e.brandName = 'Min 2 characters';
     if (!form.country) e.country = 'Required';
     if (!form.email || !/\S+@\S+\.\S+/.test(form.email)) e.email = 'Valid email required';
-    if (!form.password || form.password.length < 6) e.password = 'Min 6 characters';
     if (!form.ownerName) e.ownerName = 'Required';
-    if (!form.foundedYear || form.foundedYear < 1800 || form.foundedYear > 2100) e.foundedYear = '1800–2100';
+    if (!form.foundedYear || form.foundedYear < 1500 || form.foundedYear > 2026) e.foundedYear = '1500–2026';
     setFormErrors(e);
     return Object.keys(e).length === 0;
   };
 
   const openCreate = () => { setForm(emptyForm); setFormErrors({}); setEditingId(null); setModalOpen(true); };
   const openEdit = (b) => {
-    setForm({ brandId: b.brandId, brandName: b.brandName, country: b.country, foundedYear: b.foundedYear, email: b.email, password: '', phone: b.phone || '', address: b.address || '', businessRegNumber: b.businessRegNumber || '', ownerName: b.ownerName });
+    setForm({ brandId: b.brandId, brandName: b.brandName, country: b.country, foundedYear: b.foundedYear, email: b.email, phone: b.phone || '', address: b.address || '', businessRegNumber: b.businessRegNumber || '', ownerName: b.ownerName });
     setFormErrors({}); setEditingId(b.brandId); setModalOpen(true);
   };
 
@@ -69,10 +68,11 @@ export default function BrandsPage() {
 
   const filtered = brands.filter(b => b.brandName.toLowerCase().includes(search.toLowerCase()) || b.country?.toLowerCase().includes(search.toLowerCase()));
 
-  const Field = ({ label, field, type = 'text', placeholder, required }) => (
+  const Field = ({ label, field, type = 'text', placeholder, required, min, max }) => (
     <div>
       <label className="block text-xs font-semibold text-gray-600 mb-1.5">{label} {required && <span className="text-red-400">*</span>}</label>
-      <input type={type} value={form[field]} onChange={e => setForm({ ...form, [field]: e.target.value })} placeholder={placeholder} className="w-full border border-gray-200 rounded-xl px-3.5 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-green-500" />
+      <input type={type} value={form[field]} onChange={e => setForm({ ...form, [field]: e.target.value })} placeholder={placeholder} min={min}
+        max={max} className="w-full border border-gray-200 rounded-xl px-3.5 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-green-500" />
       {formErrors[field] && <p className="text-red-400 text-xs mt-1">{formErrors[field]}</p>}
     </div>
   );
@@ -138,15 +138,14 @@ export default function BrandsPage() {
             </div>
             {formErrors.api && <p className="text-red-500 text-sm mb-4">{formErrors.api}</p>}
             <div className="grid grid-cols-2 gap-4">
-              {!editingId && <Field label="Brand ID" field="brandId" type="number" required />}
+              {!editingId && <Field label="Brand ID" field="brandId" type="number" required min={1} />}
               <div className={editingId ? 'col-span-2' : ''}>
                 <Field label="Brand Name" field="brandName" placeholder="e.g. TianHu" required />
               </div>
               <Field label="Country" field="country" placeholder="e.g. China" required />
-              <Field label="Founded Year" field="foundedYear" type="number" placeholder="1998" required />
+              <Field label="Founded Year" field="foundedYear" type="number" placeholder="1998" required min={1500} max={2026} />
               <Field label="Owner Name" field="ownerName" placeholder="e.g. Li Wei" required />
               <Field label="Email" field="email" type="email" placeholder="brand@email.com" required />
-              <Field label="Password" field="password" type="password" placeholder="••••••••" required />
               <Field label="Phone" field="phone" placeholder="+86-21-5555" />
               <div className="col-span-2"><Field label="Address" field="address" placeholder="Street address" /></div>
               <div className="col-span-2"><Field label="Business Reg. No." field="businessRegNumber" placeholder="REG-123456" /></div>
