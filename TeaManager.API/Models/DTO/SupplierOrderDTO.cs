@@ -13,6 +13,7 @@ public class SupplierOrderDTO
         public int SupplierId { get; set; }
         public int ProductId { get; set; }
         public string ProductName { get; set; } = string.Empty;
+        public string ProductBrandName { get; set; } = string.Empty;
         public string SupplierName { get; set; } = string.Empty;
 
 }

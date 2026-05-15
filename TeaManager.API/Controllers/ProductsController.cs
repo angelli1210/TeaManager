@@ -21,6 +21,7 @@ namespace TeaManager.API.Controllers
             var products = _dbContext.Products
                 .Include(p => p.Brand) //Join with brands
                 .Include(p => p.Supplier) // Join with suppliers
+                .OrderBy(p => p.ProductId)
                 .ToList();
             var productsDto = new List<ProductDTO>();
             foreach (var product in products)

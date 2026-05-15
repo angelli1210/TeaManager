@@ -17,7 +17,7 @@ namespace TeaManager.API.Controllers
         [HttpGet]
         public IActionResult GetAllSuppliers()
         {
-            var suppliers = _dbContext.Suppliers.ToList();
+            var suppliers = _dbContext.Suppliers.OrderBy(s => s.SupplierId).ToList();
 
             var suppliersDto = new List<SupplierDTO>();
             foreach (var supplier in suppliers)

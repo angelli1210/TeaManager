@@ -17,7 +17,7 @@ namespace TeaManager.API.Controllers
         [HttpGet]
         public IActionResult GetAllBrands()
         {
-            var brands = _dbContext.Brands.ToList();
+            var brands = _dbContext.Brands.OrderBy(b => b.BrandId).ToList();
 
             var brandsDto = new List<BrandDTO>();
             foreach (var brand in brands)

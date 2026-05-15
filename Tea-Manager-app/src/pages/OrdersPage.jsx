@@ -93,7 +93,7 @@ export default function OrdersPage() {
           <table className="w-full text-sm">
             <thead>
               <tr className="text-left text-xs text-gray-400 bg-gray-50 border-b border-gray-100">
-                {['ID', 'Product', 'Supplier', 'Qty', 'Date', 'Actions'].map(h => <th key={h} className="px-5 py-3 font-semibold">{h}</th>)}
+                {['ID', 'Product', 'Brand', 'Supplier', 'Qty', 'Date', 'Actions'].map(h => <th key={h} className="px-5 py-3 font-semibold">{h}</th>)}
               </tr>
             </thead>
             <tbody className="divide-y divide-gray-50">
@@ -101,6 +101,7 @@ export default function OrdersPage() {
                 <tr key={o.supplierOrderId} className="hover:bg-gray-50 transition-colors">
                   <td className="px-5 py-3.5 text-gray-400 text-xs">#{o.supplierOrderId}</td>
                   <td className="px-5 py-3.5 font-semibold text-gray-800">{o.productName}</td>
+                  <td className="px-5 py-3.5 text-gray-500">{o.productBrandName}</td>
                   <td className="px-5 py-3.5 text-gray-500">{o.supplierName}</td>
                   <td className="px-5 py-3.5 text-gray-500">{o.quantity}</td>
                   <td className="px-5 py-3.5 text-gray-400 text-xs">{o.orderDate?.substring(0, 10)}</td>
@@ -112,7 +113,7 @@ export default function OrdersPage() {
                   </td>
                 </tr>
               ))}
-              {filtered.length === 0 && <tr><td colSpan={6} className="px-5 py-10 text-center text-gray-400 text-sm">No orders found.</td></tr>}
+              {filtered.length === 0 && <tr><td colSpan={7} className="px-5 py-10 text-center text-gray-400 text-sm">No orders found.</td></tr>}
             </tbody>
           </table>
         )}
@@ -133,7 +134,7 @@ export default function OrdersPage() {
                 <label className="block text-xs font-semibold text-gray-600 mb-1.5">Product <span className="text-red-400">*</span></label>
                 <select value={form.productId} onChange={e => setForm({ ...form, productId: e.target.value })} className="w-full border border-gray-200 rounded-xl px-3.5 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-green-500">
                   <option value="">Select product...</option>
-                  {products.map(p => <option key={p.productId} value={p.productId}>{p.productName}</option>)}
+                  {products.map(p => <option key={p.productId} value={p.productId}>{p.productName} ({p.brandName})</option>)}
                 </select>
                 {formErrors.productId && <p className="text-red-400 text-xs mt-1">{formErrors.productId}</p>}
               </div>

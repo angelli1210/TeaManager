@@ -20,7 +20,9 @@ namespace TeaManager.API.Controllers
         {
             var supplierOrders = _dbContext.SupplierOrders
                 .Include(so => so.Product) //Join with products   
+                    .ThenInclude(p => p.Brand) //Join with brand names
                 .Include(so => so.Supplier) //Join with suppliers
+                .OrderBy(so => so.SupplierOrderId) // in order
                 .ToList();
             var supplierOrdersDto = new List<SupplierOrderDTO>();
             foreach (var supplierOrder in supplierOrders)
@@ -37,8 +39,7 @@ namespace TeaManager.API.Controllers
                     ProductName = supplierOrder.Product.ProductName,
                     SupplierId = supplierOrder.Supplier.SupplierId,
                     SupplierName = supplierOrder.Supplier.SupplierName,
-
-
+                    ProductBrandName = supplierOrder.Product.Brand.BrandName
                 });
             }
             return Ok(supplierOrdersDto);
@@ -53,6 +54,7 @@ namespace TeaManager.API.Controllers
         {
             var supplierOrder = _dbContext.SupplierOrders
                 .Include(p => p.Product) //Join with brands
+                    .ThenInclude(p => p.Brand)
                 .Include(s => s.Supplier) // Join with suppliers
                 .FirstOrDefault(so => so.SupplierOrderId == supplierOrderId);
             if (supplierOrder == null)
@@ -71,7 +73,8 @@ namespace TeaManager.API.Controllers
                 ProductId = supplierOrder.Product.ProductId,
                 ProductName = supplierOrder.Product.ProductName,
                 SupplierId = supplierOrder.Supplier.SupplierId,
-                SupplierName = supplierOrder.Supplier.SupplierName
+                SupplierName = supplierOrder.Supplier.SupplierName,
+                ProductBrandName = supplierOrder.Product.Brand.BrandName
             };
             return Ok(supplierOrdersDto);
         }
@@ -88,9 +91,10 @@ namespace TeaManager.API.Controllers
             {
                 return BadRequest(new { message = $"Supplier with ID {createDto.SupplierId} does not exist." });
             }
-
             //Validate Product
-            var product = _dbContext.Products.FirstOrDefault(p => p.ProductId == createDto.ProductId);
+            var product = _dbContext.Products
+                .Include(p => p.Brand)
+            .FirstOrDefault(p => p.ProductId == createDto.ProductId);
             if (product == null)
             {
                 return BadRequest(new { message = $"Product with ID {createDto.ProductId} does not exist." });
@@ -129,7 +133,8 @@ namespace TeaManager.API.Controllers
                 ProductId = product.ProductId,
                 ProductName = product.ProductName,
                 SupplierId = supplier.SupplierId,
-                SupplierName = supplier.SupplierName
+                SupplierName = supplier.SupplierName,
+                ProductBrandName = product.Brand.BrandName
             };
             return CreatedAtAction(
                 nameof(GetSupplierOrderById),
@@ -162,7 +167,9 @@ namespace TeaManager.API.Controllers
 
             }
 
-            var product = _dbContext.Products.FirstOrDefault(p => p.ProductId == updateDto.ProductId);
+            var product = _dbContext.Products
+            .Include(p => p.Brand)
+            .FirstOrDefault(p => p.ProductId == updateDto.ProductId);
             if (product == null)
             {
                 return BadRequest(new { message = $"Product with ID {updateDto.ProductId} does not exist." });
@@ -186,7 +193,8 @@ namespace TeaManager.API.Controllers
                 ProductId = product.ProductId,
                 ProductName = product.ProductName,
                 SupplierId = supplier.SupplierId,
-                SupplierName = supplier.SupplierName
+                SupplierName = supplier.SupplierName,
+                ProductBrandName = product.Brand.BrandName
             };
 
             return Ok(supplierOrderDto);
