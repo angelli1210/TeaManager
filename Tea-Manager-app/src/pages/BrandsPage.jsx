@@ -3,6 +3,14 @@ import { brandService } from '../API/api';
 import ConfirmModal from '../components/common/ConfirmModal';
 
 const emptyForm = { brandName: '', country: '', foundedYear: '', email: '', phone: '', address: '', businessRegNumber: '', ownerName: '' };
+const Field = ({ label, field, type = 'text', placeholder, required, min, max, form, setForm, formErrors }) => (
+  <div>
+    <label className="block text-xs font-semibold text-gray-600 mb-1.5">{label} {required && <span className="text-red-400">*</span>}</label>
+    <input type={type} value={form[field]} onChange={e => setForm({ ...form, [field]: e.target.value })} placeholder={placeholder} min={min}
+      max={max} className="w-full border border-gray-200 rounded-xl px-3.5 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-green-500" />
+    {formErrors[field] && <p className="text-red-400 text-xs mt-1">{formErrors[field]}</p>}
+  </div>
+)
 
 export default function BrandsPage() {
   const [brands, setBrands] = useState([]);
@@ -67,15 +75,6 @@ export default function BrandsPage() {
 
   const filtered = brands.filter(b => b.brandName.toLowerCase().includes(search.toLowerCase()) || b.country?.toLowerCase().includes(search.toLowerCase()));
 
-  const Field = ({ label, field, type = 'text', placeholder, required, min, max }) => (
-    <div>
-      <label className="block text-xs font-semibold text-gray-600 mb-1.5">{label} {required && <span className="text-red-400">*</span>}</label>
-      <input type={type} value={form[field]} onChange={e => setForm({ ...form, [field]: e.target.value })} placeholder={placeholder} min={min}
-        max={max} className="w-full border border-gray-200 rounded-xl px-3.5 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-green-500" />
-      {formErrors[field] && <p className="text-red-400 text-xs mt-1">{formErrors[field]}</p>}
-    </div>
-  );
-
   return (
     <div>
       <div className="flex items-center justify-between mb-5">
@@ -137,14 +136,14 @@ export default function BrandsPage() {
             </div>
             {formErrors.api && <p className="text-red-500 text-sm mb-4">{formErrors.api}</p>}
             <div className="grid grid-cols-2 gap-4">
-              <Field label="Brand Name" field="brandName" placeholder="e.g. TianHu" required />
-              <Field label="Country" field="country" placeholder="e.g. China" required />
-              <Field label="Founded Year" field="foundedYear" type="number" placeholder="1998" required min={1800} max={2026} />
-              <Field label="Owner Name" field="ownerName" placeholder="e.g. Li Wei" required />
-              <Field label="Email" field="email" type="email" placeholder="brand@email.com" required />
-              <Field label="Phone" field="phone" placeholder="+86-21-5555" />
-              <div className="col-span-2"><Field label="Address" field="address" placeholder="Street address" /></div>
-              <div className="col-span-2"><Field label="Business Reg. No." field="businessRegNumber" placeholder="REG-123456" /></div>
+              <Field label="Brand Name" field="brandName" placeholder="e.g. TianHu" form={form} setForm={setForm} formErrors={formErrors} required />
+              <Field label="Country" field="country" placeholder="e.g. China" form={form} setForm={setForm} formErrors={formErrors} required />
+              <Field label="Founded Year" field="foundedYear" type="number" placeholder="1998" form={form} setForm={setForm} formErrors={formErrors} required min={1800} max={2026} />
+              <Field label="Owner Name" field="ownerName" placeholder="e.g. Li Wei" form={form} setForm={setForm} formErrors={formErrors} required />
+              <Field label="Email" field="email" type="email" placeholder="brand@email.com" form={form} setForm={setForm} formErrors={formErrors} required />
+              <Field label="Phone" field="phone" placeholder="+86-21-5555" form={form} setForm={setForm} formErrors={formErrors} required />
+              <div className="col-span-2"><Field label="Address" field="address" placeholder="Street address" form={form} setForm={setForm} formErrors={formErrors} /></div>
+              <div className="col-span-2"><Field label="Business Reg. No." field="businessRegNumber" placeholder="REG-123456" form={form} setForm={setForm} formErrors={formErrors} /></div>
             </div>
             <div className="flex justify-end gap-3 mt-6">
               <button onClick={() => setModalOpen(false)} className="px-5 py-2.5 text-sm font-semibold text-gray-600 border border-gray-200 rounded-xl hover:bg-gray-50">Cancel</button>
