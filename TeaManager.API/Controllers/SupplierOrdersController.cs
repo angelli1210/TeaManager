@@ -82,13 +82,6 @@ namespace TeaManager.API.Controllers
         [HttpPost]
         public IActionResult CreateSupplierOrder([FromBody] CreateSupplierOrderRequestDTO createDto)
         {
-
-            //SupplierOrder Id to check for duplicates
-            if (_dbContext.SupplierOrders.Any(so => so.SupplierOrderId == createDto.SupplierOrderId))
-            {
-                return BadRequest(new { message = $"Supplier order Id {createDto.SupplierOrderId} already exists." });
-            }
-
             //Validate Supplier ID
             var supplier = _dbContext.Suppliers.FirstOrDefault(s => s.SupplierId == createDto.SupplierId);
             if (supplier == null)
@@ -103,10 +96,15 @@ namespace TeaManager.API.Controllers
                 return BadRequest(new { message = $"Product with ID {createDto.ProductId} does not exist." });
             }
 
+            //Geneate next SupplierOrderId (auto-increment)
+            var nextSupplierOrderId = _dbContext.SupplierOrders.Any()
+            ? _dbContext.SupplierOrders.Max(so => so.SupplierOrderId) + 1
+            : 1;
+
             var supplierOrder = new SupplierOrder
             {
                 Id = Guid.NewGuid(),
-                SupplierOrderId = createDto.SupplierOrderId,
+                SupplierOrderId = nextSupplierOrderId,
                 Quantity = createDto.Quantity,
                 OrderDate = createDto.OrderDate,
                 Remark = createDto.Remark, // null

@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { orderService, productService, supplierService } from '../API/api';
 import ConfirmModal from '../components/common/ConfirmModal';
 
-const emptyForm = { supplierOrderId: '', productId: '', supplierId: '', quantity: '', orderDate: '' };
+const emptyForm = { productId: '', supplierId: '', quantity: '', orderDate: '' };
 
 export default function OrdersPage() {
   const [orders, setOrders] = useState([]);
@@ -30,7 +30,6 @@ export default function OrdersPage() {
 
   const validate = () => {
     const e = {};
-    if (!form.supplierOrderId) e.supplierOrderId = 'Required';
     if (!form.productId) e.productId = 'Select a product';
     if (!form.supplierId) e.supplierId = 'Select a supplier';
     if (!form.quantity || form.quantity <= 0) e.quantity = 'Must be > 0';
@@ -42,7 +41,7 @@ export default function OrdersPage() {
 
   const openCreate = () => { setForm(emptyForm); setFormErrors({}); setEditingId(null); setModalOpen(true); };
   const openEdit = (o) => {
-    setForm({ supplierOrderId: o.supplierOrderId, productId: o.productId, supplierId: o.supplierId, quantity: o.quantity, orderDate: o.orderDate?.substring(0, 10) || '' });
+    setForm({ productId: o.productId, supplierId: o.supplierId, quantity: o.quantity, orderDate: o.orderDate?.substring(0, 10) || '' });
     setFormErrors({}); setEditingId(o.supplierOrderId); setModalOpen(true);
   };
 
@@ -50,7 +49,7 @@ export default function OrdersPage() {
     if (!validate()) return;
     setSaving(true);
     try {
-      const payload = { ...form, supplierOrderId: Number(form.supplierOrderId), productId: Number(form.productId), supplierId: Number(form.supplierId), quantity: Number(form.quantity) };
+      const payload = { ...form, productId: Number(form.productId), supplierId: Number(form.supplierId), quantity: Number(form.quantity) };
       if (editingId) await orderService.update(editingId, payload);
       else await orderService.create(payload);
       setModalOpen(false);
@@ -130,13 +129,6 @@ export default function OrdersPage() {
             </div>
             {formErrors.api && <p className="text-red-500 text-sm mb-4">{formErrors.api}</p>}
             <div className="grid grid-cols-2 gap-4">
-              {!editingId && (
-                <div className="col-span-2">
-                  <label className="block text-xs font-semibold text-gray-600 mb-1.5">Order ID <span className="text-red-400">*</span></label>
-                  <input type="number" value={form.supplierOrderId} onChange={e => setForm({ ...form, supplierOrderId: e.target.value })} className="w-full border border-gray-200 rounded-xl px-3.5 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-green-500" />
-                  {formErrors.supplierOrderId && <p className="text-red-400 text-xs mt-1">{formErrors.supplierOrderId}</p>}
-                </div>
-              )}
               <div>
                 <label className="block text-xs font-semibold text-gray-600 mb-1.5">Product <span className="text-red-400">*</span></label>
                 <select value={form.productId} onChange={e => setForm({ ...form, productId: e.target.value })} className="w-full border border-gray-200 rounded-xl px-3.5 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-green-500">
