@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { brandService } from '../API/api';
 import ConfirmModal from '../components/common/ConfirmModal';
 
-const emptyForm = { brandId: '', brandName: '', country: '', foundedYear: '', email: '', phone: '', address: '', businessRegNumber: '', ownerName: '' };
+const emptyForm = { brandName: '', country: '', foundedYear: '', email: '', phone: '', address: '', businessRegNumber: '', ownerName: '' };
 
 export default function BrandsPage() {
   const [brands, setBrands] = useState([]);
@@ -28,7 +28,6 @@ export default function BrandsPage() {
 
   const validate = () => {
     const e = {};
-    if (!form.brandId) e.brandId = 'Required';
     if (!form.brandName || form.brandName.length < 2) e.brandName = 'Min 2 characters';
     if (!form.country) e.country = 'Required';
     if (!form.email || !/\S+@\S+\.\S+/.test(form.email)) e.email = 'Valid email required';
@@ -48,7 +47,7 @@ export default function BrandsPage() {
     if (!validate()) return;
     setSaving(true);
     try {
-      const payload = { ...form, brandId: Number(form.brandId), foundedYear: Number(form.foundedYear) };
+      const payload = { ...form, foundedYear: Number(form.foundedYear) };
       if (editingId) await brandService.update(editingId, payload);
       else await brandService.create(payload);
       setModalOpen(false);
@@ -138,10 +137,7 @@ export default function BrandsPage() {
             </div>
             {formErrors.api && <p className="text-red-500 text-sm mb-4">{formErrors.api}</p>}
             <div className="grid grid-cols-2 gap-4">
-              {!editingId && <Field label="Brand ID" field="brandId" type="number" required min={1} />}
-              <div className={editingId ? 'col-span-2' : ''}>
-                <Field label="Brand Name" field="brandName" placeholder="e.g. TianHu" required />
-              </div>
+              <Field label="Brand Name" field="brandName" placeholder="e.g. TianHu" required />
               <Field label="Country" field="country" placeholder="e.g. China" required />
               <Field label="Founded Year" field="foundedYear" type="number" placeholder="1998" required min={1800} max={2026} />
               <Field label="Owner Name" field="ownerName" placeholder="e.g. Li Wei" required />

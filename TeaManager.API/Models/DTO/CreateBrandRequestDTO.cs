@@ -4,10 +4,6 @@ namespace TeaManager.API.Models.DTO
 {
     public class CreateBrandRequestDTO
     {
-        [Required]
-        [Range(1, int.MaxValue, ErrorMessage = "BrandId must be greater than 0.")]
-        public int BrandId { get; set; }
-
         [Required(ErrorMessage = "Brand name is required.")]
         [StringLength(100, MinimumLength = 2, ErrorMessage = "Brand name must be between 2 and 100 characters.")]
         public required string BrandName { get; set; }

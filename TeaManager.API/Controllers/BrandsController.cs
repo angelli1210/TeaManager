@@ -76,11 +76,6 @@ namespace TeaManager.API.Controllers
         [HttpPost]
         public IActionResult CreateBrand([FromBody] CreateBrandRequestDTO createDto)
         {
-            //BrandId to check duplicates
-            if (_dbContext.Brands.Any(b => b.BrandId == createDto.BrandId))
-            {
-                return BadRequest(new { message = $"BrandId {createDto.BrandId} already exists." });
-            }
 
             //Validate Email duplicates (+ prevent create brand account with same email)
             if (_dbContext.Brands.Any(b => b.Email == createDto.Email))
@@ -88,10 +83,14 @@ namespace TeaManager.API.Controllers
                 return BadRequest(new { message = $"Email '{createDto.Email}' already exists." });
             }
 
+            //Generate next BrandId (auto increment)
+            var nextBrandId = _dbContext.Brands.Any()
+            ? _dbContext.Brands.Max(b => b.BrandId) + 1
+            : 1;
             var brand = new Brand
             {
                 Id = Guid.NewGuid(),
-                BrandId = createDto.BrandId,
+                BrandId = nextBrandId,
                 BrandName = createDto.BrandName,
                 Country = createDto.Country,
                 FoundedYear = createDto.FoundedYear,

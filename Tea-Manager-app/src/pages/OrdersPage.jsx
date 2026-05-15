@@ -35,6 +35,7 @@ export default function OrdersPage() {
     if (!form.supplierId) e.supplierId = 'Select a supplier';
     if (!form.quantity || form.quantity <= 0) e.quantity = 'Must be > 0';
     if (!form.orderDate) e.orderDate = 'Required';
+    else if (new Date(form.orderDate) > new Date()) e.orderDate = 'Cannot be in the future';
     setFormErrors(e);
     return Object.keys(e).length === 0;
   };
@@ -159,7 +160,7 @@ export default function OrdersPage() {
               </div>
               <div>
                 <label className="block text-xs font-semibold text-gray-600 mb-1.5">Order Date <span className="text-red-400">*</span></label>
-                <input type="date" value={form.orderDate} max={new Date().toISOString().split('T')[0]} onChange={e => setForm({ ...form, orderDate: e.target.value })} className="w-full border border-gray-200 rounded-xl px-3.5 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-green-500" />
+                <input type="date" value={form.orderDate} min="2020-01-01" max={new Date().toISOString().split('T')[0]} onChange={e => setForm({ ...form, orderDate: e.target.value })} className="w-full border border-gray-200 rounded-xl px-3.5 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-green-500" />
                 {formErrors.orderDate && <p className="text-red-400 text-xs mt-1">{formErrors.orderDate}</p>}
               </div>
             </div>
