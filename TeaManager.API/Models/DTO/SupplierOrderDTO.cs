@@ -9,8 +9,10 @@ public class SupplierOrderDTO
         public string? Remark { get; set; }//Nullable
         public DateTime CreatedAt { get; set; }
 
-        //Foregin keys
+        //Foreign keys
         public int SupplierId { get; set; }
         public int ProductId { get; set; }
+        public string ProductName { get; set; } = string.Empty;
+        public string SupplierName { get; set; } = string.Empty;
 
 }

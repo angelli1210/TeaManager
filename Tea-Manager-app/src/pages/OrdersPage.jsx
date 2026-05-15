@@ -2,8 +2,7 @@ import { useEffect, useState } from 'react';
 import { orderService, productService, supplierService } from '../services/api';
 import ConfirmModal from '../components/common/ConfirmModal';
 
-const emptyForm = { supplierOrderId: '', productId: '', supplierId: '', quantity: '', totalPrice: '', status: 'Pending', orderDate: '' };
-const STATUS_OPTIONS = ['Pending', 'Shipped', 'Delivered', 'Cancelled'];
+const emptyForm = { supplierOrderId: '', productId: '', supplierId: '', quantity: '', orderDate: '' };
 const statusColor = (s) => ({ Delivered: 'bg-green-100 text-green-700', Pending: 'bg-yellow-100 text-yellow-700', Shipped: 'bg-blue-100 text-blue-700', Cancelled: 'bg-red-100 text-red-600' }[s] || 'bg-gray-100 text-gray-600');
 
 export default function OrdersPage() {
@@ -36,7 +35,6 @@ export default function OrdersPage() {
     if (!form.productId) e.productId = 'Select a product';
     if (!form.supplierId) e.supplierId = 'Select a supplier';
     if (!form.quantity || form.quantity <= 0) e.quantity = 'Must be > 0';
-    if (!form.totalPrice || form.totalPrice <= 0) e.totalPrice = 'Must be > 0';
     if (!form.orderDate) e.orderDate = 'Required';
     setFormErrors(e);
     return Object.keys(e).length === 0;
@@ -44,7 +42,7 @@ export default function OrdersPage() {
 
   const openCreate = () => { setForm(emptyForm); setFormErrors({}); setEditingId(null); setModalOpen(true); };
   const openEdit = (o) => {
-    setForm({ supplierOrderId: o.supplierOrderId, productId: o.productId, supplierId: o.supplierId, quantity: o.quantity, totalPrice: o.totalPrice, status: o.status, orderDate: o.orderDate?.substring(0, 10) || '' });
+    setForm({ supplierOrderId: o.supplierOrderId, productId: o.productId, supplierId: o.supplierId, quantity: o.quantity, orderDate: o.orderDate?.substring(0, 10) || '' });
     setFormErrors({}); setEditingId(o.supplierOrderId); setModalOpen(true);
   };
 
@@ -52,7 +50,7 @@ export default function OrdersPage() {
     if (!validate()) return;
     setSaving(true);
     try {
-      const payload = { ...form, supplierOrderId: Number(form.supplierOrderId), productId: Number(form.productId), supplierId: Number(form.supplierId), quantity: Number(form.quantity), totalPrice: Number(form.totalPrice) };
+      const payload = { ...form, supplierOrderId: Number(form.supplierOrderId), productId: Number(form.productId), supplierId: Number(form.supplierId), quantity: Number(form.quantity) };
       if (editingId) await orderService.update(editingId, payload);
       else await orderService.create(payload);
       setModalOpen(false);
@@ -96,7 +94,7 @@ export default function OrdersPage() {
           <table className="w-full text-sm">
             <thead>
               <tr className="text-left text-xs text-gray-400 bg-gray-50 border-b border-gray-100">
-                {['ID', 'Product', 'Supplier', 'Qty', 'Total', 'Status', 'Date', 'Actions'].map(h => <th key={h} className="px-5 py-3 font-semibold">{h}</th>)}
+                {['ID', 'Product', 'Supplier', 'Qty', 'Date', 'Actions'].map(h => <th key={h} className="px-5 py-3 font-semibold">{h}</th>)}
               </tr>
             </thead>
             <tbody className="divide-y divide-gray-50">
@@ -106,8 +104,6 @@ export default function OrdersPage() {
                   <td className="px-5 py-3.5 font-semibold text-gray-800">{o.productName}</td>
                   <td className="px-5 py-3.5 text-gray-500">{o.supplierName}</td>
                   <td className="px-5 py-3.5 text-gray-500">{o.quantity}</td>
-                  <td className="px-5 py-3.5 font-semibold text-gray-800">${o.totalPrice?.toFixed(2)}</td>
-                  <td className="px-5 py-3.5"><span className={`px-2.5 py-1 rounded-full text-xs font-semibold ${statusColor(o.status)}`}>{o.status}</span></td>
                   <td className="px-5 py-3.5 text-gray-400 text-xs">{o.orderDate?.substring(0, 10)}</td>
                   <td className="px-5 py-3.5">
                     <div className="flex gap-3">
@@ -117,7 +113,7 @@ export default function OrdersPage() {
                   </td>
                 </tr>
               ))}
-              {filtered.length === 0 && <tr><td colSpan={8} className="px-5 py-10 text-center text-gray-400 text-sm">No orders found.</td></tr>}
+              {filtered.length === 0 && <tr><td colSpan={6} className="px-5 py-10 text-center text-gray-400 text-sm">No orders found.</td></tr>}
             </tbody>
           </table>
         )}
@@ -161,17 +157,6 @@ export default function OrdersPage() {
                 <label className="block text-xs font-semibold text-gray-600 mb-1.5">Quantity <span className="text-red-400">*</span></label>
                 <input type="number" value={form.quantity} onChange={e => setForm({ ...form, quantity: e.target.value })} className="w-full border border-gray-200 rounded-xl px-3.5 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-green-500" placeholder="0" />
                 {formErrors.quantity && <p className="text-red-400 text-xs mt-1">{formErrors.quantity}</p>}
-              </div>
-              <div>
-                <label className="block text-xs font-semibold text-gray-600 mb-1.5">Total Price ($) <span className="text-red-400">*</span></label>
-                <input type="number" step="0.01" value={form.totalPrice} onChange={e => setForm({ ...form, totalPrice: e.target.value })} className="w-full border border-gray-200 rounded-xl px-3.5 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-green-500" placeholder="0.00" />
-                {formErrors.totalPrice && <p className="text-red-400 text-xs mt-1">{formErrors.totalPrice}</p>}
-              </div>
-              <div>
-                <label className="block text-xs font-semibold text-gray-600 mb-1.5">Status</label>
-                <select value={form.status} onChange={e => setForm({ ...form, status: e.target.value })} className="w-full border border-gray-200 rounded-xl px-3.5 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-green-500">
-                  {STATUS_OPTIONS.map(s => <option key={s} value={s}>{s}</option>)}
-                </select>
               </div>
               <div>
                 <label className="block text-xs font-semibold text-gray-600 mb-1.5">Order Date <span className="text-red-400">*</span></label>

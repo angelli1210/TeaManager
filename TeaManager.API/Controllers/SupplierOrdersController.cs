@@ -34,7 +34,10 @@ namespace TeaManager.API.Controllers
                     Remark = supplierOrder.Remark,
                     CreatedAt = supplierOrder.CreatedAt,
                     ProductId = supplierOrder.Product.ProductId,
-                    SupplierId = supplierOrder.Supplier.SupplierId
+                    ProductName = supplierOrder.Product.ProductName,
+                    SupplierId = supplierOrder.Supplier.SupplierId,
+                    SupplierName = supplierOrder.Supplier.SupplierName,
+
 
                 });
             }
@@ -66,7 +69,9 @@ namespace TeaManager.API.Controllers
                 Remark = supplierOrder.Remark,
                 CreatedAt = supplierOrder.CreatedAt,
                 ProductId = supplierOrder.Product.ProductId,
-                SupplierId = supplierOrder.Supplier.SupplierId
+                ProductName = supplierOrder.Product.ProductName,
+                SupplierId = supplierOrder.Supplier.SupplierId,
+                SupplierName = supplierOrder.Supplier.SupplierName
             };
             return Ok(supplierOrdersDto);
         }
@@ -105,7 +110,7 @@ namespace TeaManager.API.Controllers
                 Quantity = createDto.Quantity,
                 OrderDate = createDto.OrderDate,
                 Remark = createDto.Remark, // null
-                SupplierId = supplier.Id, //FK (Guid)
+                SupplierId = supplier.Id,//FK (Guid)
                 ProductId = product.Id,  //FK(Guid)
                 CreatedAt = DateTime.UtcNow
             };
@@ -124,9 +129,9 @@ namespace TeaManager.API.Controllers
                 Remark = supplierOrder.Remark,
                 CreatedAt = supplierOrder.CreatedAt,
                 ProductId = product.ProductId,
-                SupplierId = supplier.SupplierId
-
-
+                ProductName = product.ProductName,
+                SupplierId = supplier.SupplierId,
+                SupplierName = supplier.SupplierName
             };
             return CreatedAtAction(
                 nameof(GetSupplierOrderById),
@@ -136,7 +141,7 @@ namespace TeaManager.API.Controllers
         }
 
         //=================
-        //PUT/api/supplierOrders/{supplierId} 
+        //PUT/api/supplierOrders/{supplierOrderId} 
         //=================
         [HttpPut]
         [Route("{supplierOrderId:int}")]
@@ -181,8 +186,9 @@ namespace TeaManager.API.Controllers
                 Remark = supplierOrder.Remark,
                 CreatedAt = supplierOrder.CreatedAt,
                 ProductId = product.ProductId,
-                SupplierId = supplier.SupplierId
-
+                ProductName = product.ProductName,
+                SupplierId = supplier.SupplierId,
+                SupplierName = supplier.SupplierName
             };
 
             return Ok(supplierOrderDto);
