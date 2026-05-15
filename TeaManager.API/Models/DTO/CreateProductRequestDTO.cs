@@ -4,9 +4,6 @@ namespace TeaManager.API.Models.DTO
 {
     public class CreateProductRequestDTO
     {
-        [Required, Range(1, int.MaxValue)]
-        public int ProductId { get; set; }
-
         [Required, StringLength(200, MinimumLength = 2)]
         public required string ProductName { get; set; }
 

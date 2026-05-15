@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("TeaManager.API")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+0358fa0aaa1a18afb83e5bc7bc91a7890c40e8c0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+1137cec4981d903ed496fd1e4b95972572408609")]
 [assembly: System.Reflection.AssemblyProductAttribute("TeaManager.API")]
 [assembly: System.Reflection.AssemblyTitleAttribute("TeaManager.API")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

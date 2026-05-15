@@ -68,16 +68,14 @@ namespace TeaManager.API.Controllers
         [HttpPost]
         public IActionResult CreateSupplier([FromBody] CreateSupplierRequestDTO createDto)
         {
-            //SupplierId to check for duplicates
-            if (_dbContext.Suppliers.Any(s => s.SupplierId == createDto.SupplierId))
-            {
-                return BadRequest(new { message = $"SupplierId {createDto.SupplierId} already exists." });
-            }
-
+            //Generate next SupplierId(auto-increment)
+            var nextSupplierId = _dbContext.Suppliers.Any()
+            ? _dbContext.Suppliers.Max(s => s.SupplierId) + 1
+            : 1;
             var supplier = new Supplier
             {
                 Id = Guid.NewGuid(),
-                SupplierId = createDto.SupplierId,
+                SupplierId = nextSupplierId,
                 SupplierName = createDto.SupplierName,
                 Country = createDto.Country,
                 ContactEmail = createDto.ContactEmail,

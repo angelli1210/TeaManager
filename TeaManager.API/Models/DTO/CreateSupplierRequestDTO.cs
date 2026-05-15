@@ -4,10 +4,6 @@ namespace TeaManager.API.Models.DTO
 {
     public class CreateSupplierRequestDTO
     {
-        [Required]
-        [Range(1, int.MaxValue, ErrorMessage = "SupplierId must be greater than 0.")]
-        public int SupplierId { get; set; }
-
         [Required(ErrorMessage = "Supplier name is required.")]
         [StringLength(100, MinimumLength = 2, ErrorMessage = "Supplier name must be between 2 and 100 characters.")]
         public required string SupplierName { get; set; }

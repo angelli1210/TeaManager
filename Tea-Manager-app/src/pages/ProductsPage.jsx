@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { productService, brandService, supplierService } from '../API/api';
 import ConfirmModal from '../components/common/ConfirmModal';
 
-const emptyForm = { productId: '', productName: '', description: '', price: '', stock: '', harvestYear: '', origin: '', brandId: '', supplierId: '' };
+const emptyForm = { productName: '', description: '', price: '', stock: '', harvestYear: '', origin: '', brandId: '', supplierId: '' };
 
 export default function ProductsPage() {
   const [products, setProducts] = useState([]);
@@ -32,7 +32,6 @@ export default function ProductsPage() {
 
   const validate = () => {
     const e = {};
-    if (!form.productId) e.productId = 'Required';
     if (!form.productName || form.productName.length < 2) e.productName = 'Min 2 characters';
     if (!form.description) e.description = 'Required';
     if (!form.price || form.price <= 0) e.price = 'Must be > 0';
@@ -47,7 +46,7 @@ export default function ProductsPage() {
 
   const openCreate = () => { setForm(emptyForm); setFormErrors({}); setEditingId(null); setModalOpen(true); };
   const openEdit = (p) => {
-    setForm({ productId: p.productId, productName: p.productName, description: p.description, price: p.price, stock: p.stock, harvestYear: p.harvestYear, origin: p.origin, brandId: p.brandId, supplierId: p.supplierId });
+    setForm({ productName: p.productName, description: p.description, price: p.price, stock: p.stock, harvestYear: p.harvestYear, origin: p.origin, brandId: p.brandId, supplierId: p.supplierId });
     setFormErrors({}); setEditingId(p.productId); setModalOpen(true);
   };
 
@@ -55,7 +54,7 @@ export default function ProductsPage() {
     if (!validate()) return;
     setSaving(true);
     try {
-      const payload = { ...form, productId: Number(form.productId), price: Number(form.price), stock: Number(form.stock), harvestYear: Number(form.harvestYear), brandId: Number(form.brandId), supplierId: Number(form.supplierId) };
+      const payload = { ...form, price: Number(form.price), stock: Number(form.stock), harvestYear: Number(form.harvestYear), brandId: Number(form.brandId), supplierId: Number(form.supplierId) };
       if (editingId) await productService.update(editingId, payload);
       else await productService.create(payload);
       setModalOpen(false);
@@ -144,14 +143,7 @@ export default function ProductsPage() {
             </div>
             {formErrors.api && <p className="text-red-500 text-sm mb-4">{formErrors.api}</p>}
             <div className="grid grid-cols-2 gap-4">
-              {!editingId && (
-                <div>
-                  <label className="block text-xs font-semibold text-gray-600 mb-1.5">Product ID <span className="text-red-400">*</span></label>
-                  <input type="number" value={form.productId} onChange={e => setForm({ ...form, productId: e.target.value })} min="1" className="w-full border border-gray-200 rounded-xl px-3.5 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-green-500" />
-                  {formErrors.productId && <p className="text-red-400 text-xs mt-1">{formErrors.productId}</p>}
-                </div>
-              )}
-              <div className={editingId ? 'col-span-2' : ''}>
+              <div className="col-span-2">
                 <label className="block text-xs font-semibold text-gray-600 mb-1.5">Product Name <span className="text-red-400">*</span></label>
                 <input type="text" value={form.productName} onChange={e => setForm({ ...form, productName: e.target.value })} className="w-full border border-gray-200 rounded-xl px-3.5 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-green-500" placeholder="e.g. Dragon Well Premium" />
                 {formErrors.productName && <p className="text-red-400 text-xs mt-1">{formErrors.productName}</p>}
@@ -206,9 +198,10 @@ export default function ProductsPage() {
             </div>
           </div>
         </div>
-      )}
+      )
+      }
 
       <ConfirmModal isOpen={deleteModal.open} itemName={deleteModal.name} onConfirm={handleDelete} onCancel={() => setDeleteModal({ open: false, id: null, name: '' })} />
-    </div>
+    </div >
   );
 }

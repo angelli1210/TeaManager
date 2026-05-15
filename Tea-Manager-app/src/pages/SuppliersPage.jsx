@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { supplierService } from '../API/api';
 import ConfirmModal from '../components/common/ConfirmModal';
 
-const emptyForm = { supplierId: '', supplierName: '', country: '', contactEmail: '', phone: '' };
+const emptyForm = { supplierName: '', country: '', contactEmail: '', phone: '' };
 
 export default function SuppliersPage() {
   const [suppliers, setSuppliers] = useState([]);
@@ -28,7 +28,6 @@ export default function SuppliersPage() {
 
   const validate = () => {
     const e = {};
-    if (!form.supplierId) e.supplierId = 'Required';
     if (!form.supplierName || form.supplierName.length < 2) e.supplierName = 'Min 2 characters';
     if (!form.country) e.country = 'Required';
     if (!form.contactEmail || !/\S+@\S+\.\S+/.test(form.contactEmail)) e.contactEmail = 'Valid email required';
@@ -38,7 +37,7 @@ export default function SuppliersPage() {
 
   const openCreate = () => { setForm(emptyForm); setFormErrors({}); setEditingId(null); setModalOpen(true); };
   const openEdit = (s) => {
-    setForm({ supplierId: s.supplierId, supplierName: s.supplierName, country: s.country, contactEmail: s.contactEmail, phone: s.phone || '' });
+    setForm({ supplierName: s.supplierName, country: s.country, contactEmail: s.contactEmail, phone: s.phone || '' });
     setFormErrors({}); setEditingId(s.supplierId); setModalOpen(true);
   };
 
@@ -46,7 +45,7 @@ export default function SuppliersPage() {
     if (!validate()) return;
     setSaving(true);
     try {
-      const payload = { ...form, supplierId: Number(form.supplierId) };
+      const payload = { ...form };
       if (editingId) await supplierService.update(editingId, payload);
       else await supplierService.create(payload);
       setModalOpen(false);
@@ -127,7 +126,6 @@ export default function SuppliersPage() {
             {formErrors.api && <p className="text-red-500 text-sm mb-4">{formErrors.api}</p>}
             <div className="grid grid-cols-2 gap-4">
               {[
-                ...(!editingId ? [{ label: 'Supplier ID', field: 'supplierId', type: 'number', required: true }] : []),
                 { label: 'Supplier Name', field: 'supplierName', placeholder: 'e.g. GreenLeaf Co.', required: true, full: !!editingId },
                 { label: 'Country', field: 'country', placeholder: 'e.g. China', required: true },
                 { label: 'Email', field: 'contactEmail', type: 'email', placeholder: 'email@supplier.com', required: true },

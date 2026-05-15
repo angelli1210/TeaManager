@@ -86,13 +86,6 @@ namespace TeaManager.API.Controllers
         [HttpPost]
         public IActionResult CreateProduct([FromBody] CreateProductRequestDTO createDto)
         {
-
-            //ProductId to check for duplicates
-            if (_dbContext.Products.Any(p => p.ProductId == createDto.ProductId))
-            {
-                return BadRequest(new { message = $"ProductId {createDto.ProductId} already exists." });
-            }
-
             //Find brand by BrandId(int)
             var brand = _dbContext.Brands.FirstOrDefault(b => b.BrandId == createDto.BrandId);
             if (brand == null)
@@ -107,10 +100,15 @@ namespace TeaManager.API.Controllers
                 return BadRequest(new { message = $"Supplier with ID {createDto.SupplierId} does not exist." });
             }
 
+            //Generate next ProductId (auto-increment)
+            var nextProductId = _dbContext.Products.Any()
+            ? _dbContext.Products.Max(p => p.ProductId) + 1
+            : 1;
+
             var product = new Product
             {
                 Id = Guid.NewGuid(),
-                ProductId = createDto.ProductId,
+                ProductId = nextProductId,
                 ProductName = createDto.ProductName,
                 Description = createDto.Description,
                 Price = createDto.Price,
