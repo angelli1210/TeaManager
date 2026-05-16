@@ -39,8 +39,10 @@ export default function BrandsPage() {
     if (!form.brandName || form.brandName.length < 2) e.brandName = 'Min 2 characters';
     if (!form.country) e.country = 'Required';
     if (!form.email || !/\S+@\S+\.\S+/.test(form.email)) e.email = 'Valid email required';
+    if (!form.phone || !/^[\d\s\-+()]+$/.test(form.phone)) e.phone = 'Valid phone required';
     if (!form.ownerName) e.ownerName = 'Required';
-    if (!form.foundedYear || form.foundedYear < 1800 || form.foundedYear > 2026) e.foundedYear = '1800–2026';
+    const currentYear = new Date().getFullYear();
+    if (!form.foundedYear || form.foundedYear < 1800 || form.foundedYear > currentYear) e.foundedYear = `1800–${currentYear}`;
     setFormErrors(e);
     return Object.keys(e).length === 0;
   };
@@ -138,7 +140,7 @@ export default function BrandsPage() {
             <div className="grid grid-cols-2 gap-4">
               <Field label="Brand Name" field="brandName" placeholder="e.g. TianHu" form={form} setForm={setForm} formErrors={formErrors} required />
               <Field label="Country" field="country" placeholder="e.g. China" form={form} setForm={setForm} formErrors={formErrors} required />
-              <Field label="Founded Year" field="foundedYear" type="number" placeholder="1998" form={form} setForm={setForm} formErrors={formErrors} required min={1800} max={2026} />
+              <Field label="Founded Year" field="foundedYear" type="number" placeholder="1998" form={form} setForm={setForm} formErrors={formErrors} required min={1800} max={new Date().getFullYear()} />
               <Field label="Owner Name" field="ownerName" placeholder="e.g. Li Wei" form={form} setForm={setForm} formErrors={formErrors} required />
               <Field label="Email" field="email" type="email" placeholder="brand@email.com" form={form} setForm={setForm} formErrors={formErrors} required />
               <Field label="Phone" field="phone" placeholder="+86-21-5555" form={form} setForm={setForm} formErrors={formErrors} required />

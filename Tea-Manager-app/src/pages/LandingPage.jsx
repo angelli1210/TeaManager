@@ -158,8 +158,13 @@ export default function LandingPage() {
             </div>
             <div className="anim-fade-up-4 flex items-center gap-4 mt-10">
               <div className="flex -space-x-2">
-                {['L', 'W', 'T', '+'].map((l, i) => (
-                  <div key={i} className={`w-8 h-8 rounded-full border-2 border-white flex items-center justify-center text-white text-xs font-bold ${['bg-green-400', 'bg-emerald-500', 'bg-teal-400', 'bg-green-600'][i]}`}>{l}</div>
+                {['Lipston.png', 'teaco.png', 'twinings.png', 'nortleaf.png'].map((l, i) => (
+                  <img
+                    key={i}
+                    src={`/logos/${l}`}
+                    alt={l}
+                    className="w-8 h-8 rounded-full border-2 border-white object-cover bg-white"
+                  />
                 ))}
               </div>
               <p className="text-sm text-gray-500"><span className="font-semibold text-gray-800">500+</span> tea businesses trust us</p>
@@ -170,10 +175,10 @@ export default function LandingPage() {
             <AppMockup />
           </div>
         </div>
-      </section>
+      </section >
 
       {/* STATS */}
-      <section className="bg-green-600 py-10">
+      < section className="bg-green-600 py-10" >
         <div className="max-w-4xl mx-auto grid grid-cols-4 gap-8 text-center px-10">
           {[['500+', 'Businesses'], ['50+', 'Tea Origins'], ['10k+', 'Products Managed'], ['99.9%', 'Uptime']].map(([num, label]) => (
             <div key={label} ref={addReveal} className="reveal">
@@ -182,10 +187,10 @@ export default function LandingPage() {
             </div>
           ))}
         </div>
-      </section>
+      </section >
 
       {/* FEATURES */}
-      <section id="features" className="py-24 bg-white px-10">
+      < section id="features" className="py-24 bg-white px-10" >
         <div className="max-w-6xl mx-auto">
           <div ref={addReveal} className="reveal text-center mb-16">
             <span className="inline-block bg-green-50 text-green-700 text-xs font-semibold px-3 py-1.5 rounded-full mb-4 border border-green-200">Features</span>
@@ -202,7 +207,7 @@ export default function LandingPage() {
             ].map(({ bg, ic, title, desc, path }) => (
               <div key={title} ref={addReveal} className="reveal card-hover bg-gray-50 rounded-2xl p-7 border border-gray-100">
                 <div className={`w-12 h-12 ${bg} rounded-2xl flex items-center justify-center mb-5`}>
-                  <svg className={`w-6 h-6 ${ic}`} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d={path} /></svg>
+                  <svg className={`w - 6 h - 6 ${ic}`} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d={path} /></svg>
                 </div>
                 <h3 className="text-lg font-bold text-gray-900 mb-2">{title}</h3>
                 <p className="text-gray-500 text-sm leading-relaxed">{desc}</p>
@@ -217,10 +222,10 @@ export default function LandingPage() {
             </div>
           </div>
         </div>
-      </section>
+      </section >
 
       {/* CTA */}
-      <section className="py-24 bg-gray-900 relative overflow-hidden">
+      < section className="py-24 bg-gray-900 relative overflow-hidden" >
         <div className="absolute inset-0 pointer-events-none" style={{ background: 'radial-gradient(ellipse at 20% 50%, rgba(22,163,74,0.2) 0%, transparent 60%), radial-gradient(ellipse at 80% 50%, rgba(74,222,128,0.1) 0%, transparent 60%)' }} />
         <div ref={addReveal} className="reveal relative max-w-2xl mx-auto text-center px-10">
           <h2 className="text-4xl font-extrabold text-white mb-5">Ready to grow your<br />tea business?</h2>
@@ -229,16 +234,16 @@ export default function LandingPage() {
             Start for free today →
           </button>
         </div>
-      </section>
+      </section >
 
       {/* FOOTER */}
-      <footer className="bg-gray-950 py-8 px-10 flex items-center justify-between">
+      < footer className="bg-gray-950 py-8 px-10 flex items-center justify-between" >
         <div className="flex items-center gap-2">
           <span className="text-sm font-bold text-white">Tea<span className="text-green-400">Manager</span></span>
           <span className="text-gray-600 text-xs">© 2026</span>
         </div>
         <p className="text-gray-600 text-xs">Built with ASP.NET Core + React</p>
-      </footer>
-    </div>
+      </footer >
+    </div >
   );
 }
