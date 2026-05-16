@@ -1,15 +1,14 @@
 using Microsoft.AspNetCore.Mvc;
-using TeaManager.API.Data;
-using TeaManager.API.Models.Domain;
 using TeaManager.API.Models.DTO;
+using TeaManager.API.Services;
 
 namespace TeaManager.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class SuppliersController(TeaManagerDbContext dbContext) : ControllerBase
+    public class SuppliersController(ISupplierService supplierService) : ControllerBase
     {
-        private readonly TeaManagerDbContext _dbContext = dbContext;
+        private readonly ISupplierService _supplierService = supplierService;
 
         //=================
         //GET/api/suppliers - get all suppliers
@@ -17,22 +16,7 @@ namespace TeaManager.API.Controllers
         [HttpGet]
         public IActionResult GetAllSuppliers()
         {
-            var suppliers = _dbContext.Suppliers.OrderBy(s => s.SupplierId).ToList();
-
-            var suppliersDto = new List<SupplierDTO>();
-            foreach (var supplier in suppliers)
-            {
-                suppliersDto.Add(new SupplierDTO
-                {
-                    Id = supplier.Id,
-                    SupplierId = supplier.SupplierId,
-                    SupplierName = supplier.SupplierName,
-                    Country = supplier.Country,
-                    ContactEmail = supplier.ContactEmail,
-                    Phone = supplier.Phone,
-                    CreatedAt = supplier.CreatedAt
-                });
-            }
+            var suppliersDto = _supplierService.GetAllSuppliers();
             return Ok(suppliersDto);
         }
 
@@ -43,22 +27,11 @@ namespace TeaManager.API.Controllers
         [Route("{supplierId:int}")]
         public IActionResult GetSupplierById([FromRoute] int supplierId)
         {
-            var supplier = _dbContext.Suppliers.FirstOrDefault(s => s.SupplierId == supplierId);
-            if (supplier == null)
+            var supplierDto = _supplierService.GetSupplierById(supplierId);
+            if (supplierDto == null)
             {
                 return NotFound(new { message = $"Supplier with ID {supplierId} not found." });
             }
-
-            var supplierDto = new SupplierDTO
-            {
-                Id = supplier.Id,
-                SupplierId = supplier.SupplierId,
-                SupplierName = supplier.SupplierName,
-                Country = supplier.Country,
-                ContactEmail = supplier.ContactEmail,
-                Phone = supplier.Phone,
-                CreatedAt = supplier.CreatedAt
-            };
             return Ok(supplierDto);
         }
 
@@ -69,38 +42,11 @@ namespace TeaManager.API.Controllers
         public IActionResult CreateSupplier([FromBody] CreateSupplierRequestDTO createDto)
         {
             //Generate next SupplierId(auto-increment)
-            var nextSupplierId = _dbContext.Suppliers.Any()
-            ? _dbContext.Suppliers.Max(s => s.SupplierId) + 1
-            : 1;
-            var supplier = new Supplier
-            {
-                Id = Guid.NewGuid(),
-                SupplierId = nextSupplierId,
-                SupplierName = createDto.SupplierName,
-                Country = createDto.Country,
-                ContactEmail = createDto.ContactEmail,
-                Phone = createDto.Phone,
-                CreatedAt = DateTime.UtcNow
-            };
+            var supplierDto = _supplierService.CreateSupplier(createDto);
 
-            _dbContext.Suppliers.Add(supplier);
-            _dbContext.SaveChanges();
-
-
-            //Return DTO
-            var supplierDto = new SupplierDTO
-            {
-                Id = supplier.Id,
-                SupplierId = supplier.SupplierId,
-                SupplierName = supplier.SupplierName,
-                Country = supplier.Country,
-                ContactEmail = supplier.ContactEmail,
-                Phone = supplier.Phone,
-                CreatedAt = supplier.CreatedAt
-            };
             return CreatedAtAction(
                 nameof(GetSupplierById),
-                new { supplierId = supplier.SupplierId },
+                new { supplierId = supplierDto.SupplierId },
                 supplierDto
             );
         }
@@ -114,30 +60,11 @@ namespace TeaManager.API.Controllers
             [FromRoute] int supplierId,
             [FromBody] UpdateSupplierRequestDTO updateDto)
         {
-            var supplier = _dbContext.Suppliers.FirstOrDefault(s => s.SupplierId == supplierId);
-            if (supplier == null)
+            var supplierDto = _supplierService.UpdateSupplier(supplierId, updateDto);
+            if (supplierDto == null)
             {
                 return NotFound(new { message = $"Supplier with ID {supplierId} not found." });
             }
-
-            supplier.SupplierName = updateDto.SupplierName;
-            supplier.Country = updateDto.Country;
-            supplier.ContactEmail = updateDto.ContactEmail;
-            supplier.Phone = updateDto.Phone;
-
-            _dbContext.SaveChanges();
-
-            var supplierDto = new SupplierDTO
-            {
-                Id = supplier.Id,
-                SupplierId = supplier.SupplierId,
-                SupplierName = supplier.SupplierName,
-                Country = supplier.Country,
-                ContactEmail = supplier.ContactEmail,
-                Phone = supplier.Phone,
-                CreatedAt = supplier.CreatedAt
-            };
-
             return Ok(supplierDto);
         }
 
@@ -148,14 +75,11 @@ namespace TeaManager.API.Controllers
         [Route("{supplierId:int}")]
         public IActionResult DeleteSupplier([FromRoute] int supplierId)
         {
-            var supplier = _dbContext.Suppliers.FirstOrDefault(s => s.SupplierId == supplierId);
-            if (supplier == null)
+            var success = _supplierService.DeleteSupplier(supplierId);
+            if (!success)
             {
                 return NotFound(new { message = $"Supplier with ID {supplierId} not found." });
             }
-
-            _dbContext.Suppliers.Remove(supplier);
-            _dbContext.SaveChanges();
 
             return NoContent();
         }

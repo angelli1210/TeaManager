@@ -1,6 +1,9 @@
 using Microsoft.EntityFrameworkCore;
 using TeaManager.API.Data;
 using TeaManager.API.Middleware;
+using TeaManager.API.Repositories;
+using TeaManager.API.Services;
+
 var MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
 var builder = WebApplication.CreateBuilder(args);
 
@@ -22,6 +25,11 @@ builder.Services.AddDbContext<TeaManagerDbContext>(options =>
 builder.Services.AddOpenApi();
 builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
 builder.Services.AddProblemDetails();
+
+builder.Services.AddScoped<IBrandRepository, BrandRepository>(); //generate new instance when requesting (HTTP request scope)
+builder.Services.AddScoped<IBrandService, BrandService>();
+builder.Services.AddScoped<ISupplierRepository, SupplierRepository>();
+builder.Services.AddScoped<ISupplierService, SupplierService>();
 
 var app = builder.Build();
 

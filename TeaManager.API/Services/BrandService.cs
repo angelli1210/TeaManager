@@ -1,7 +1,3 @@
-using System.ComponentModel.DataAnnotations;
-using System.Data.Common;
-using System.IO.Pipes;
-using System.Net.Sockets;
 using TeaManager.API.Models.Domain;
 using TeaManager.API.Models.DTO;
 using TeaManager.API.Repositories;

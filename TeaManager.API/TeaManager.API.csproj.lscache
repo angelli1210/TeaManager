@@ -69,6 +69,8 @@ Migrations/
  20260509120948_SeedData.Designer.cs
  20260509122117_SeedSupplierOrders.cs
  20260509122117_SeedSupplierOrders.Designer.cs
+ 20260515074017_RemoveBrandPassword.cs
+ 20260515074017_RemoveBrandPassword.Designer.cs
  TeaManagerDbContextModelSnapshot.cs
 Models/Domain/
  Brand.cs
@@ -93,6 +95,20 @@ obj/Debug/net10.0/
  TeaManager.API.AssemblyInfo.cs
  TeaManager.API.GlobalUsings.g.cs
 Program.cs
+Repositories/
+ BrandRepository.cs
+ IBrandRepository.cs
+ IProductRepository.cs
+ ISupplierRepository.cs
+ ProductRepository.cs
+ SupplierRepository.cs
+Services/
+ BrandService.cs
+ IBrandService.cs
+ IProductService.cs
+ ISupplierService.cs
+ ProductService.cs
+ SupplierService.cs
 
 [metadataReferences]
 <DOTNET>/packs/Microsoft.AspNetCore.App.Ref/10.0.5/ref/net10.0/
@@ -407,7 +423,6 @@ Program.cs
 <NUGET>/
  azure.core/1.47.1/lib/net8.0/Azure.Core.dll
  azure.identity/1.14.2/lib/net8.0/Azure.Identity.dll
- bcrypt.net-next/4.0.3/lib/net6.0/BCrypt.Net-Next.dll
  humanizer.core/2.14.1/lib/net6.0/Humanizer.dll
  microsoft.aspnetcore.openapi/10.0.5/lib/net10.0/Microsoft.AspNetCore.OpenApi.dll
  microsoft.bcl.asyncinterfaces/8.0.0/lib/netstandard2.1/Microsoft.Bcl.AsyncInterfaces.dll

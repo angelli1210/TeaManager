@@ -117,7 +117,7 @@ namespace TeaManager.API.Controllers
                 HarvestYear = createDto.HarvestYear,
                 Origin = createDto.Origin,
                 CreatedAt = DateTime.UtcNow,
-                BrandId = brand.Id, // FK,
+                BrandId = brand.Id, // FK (Product FK)
                 SupplierId = supplier.Id //FK
             };
 
