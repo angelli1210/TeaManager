@@ -23,7 +23,7 @@ namespace TeaManager.API.Middleware
             string msg; // error message
             string errorDetail; //error details
             DateTime time; // timestamp
-            if (exception is DbUpdateException)
+            if (exception is DbUpdateException || exception is InvalidOperationException)
             {
                 code = 400;
                 msg = "Bad Request";

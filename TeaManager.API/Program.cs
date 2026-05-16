@@ -30,7 +30,10 @@ builder.Services.AddScoped<IBrandRepository, BrandRepository>(); //generate new 
 builder.Services.AddScoped<IBrandService, BrandService>();
 builder.Services.AddScoped<ISupplierRepository, SupplierRepository>();
 builder.Services.AddScoped<ISupplierService, SupplierService>();
-
+builder.Services.AddScoped<IProductRepository, ProductRepository>();
+builder.Services.AddScoped<IProductService, ProductService>();
+builder.Services.AddScoped<ISupplierOrderRepository, SupplierOrderRepository>();
+builder.Services.AddScoped<ISupplierOrderService, SupplierOrderService>();
 var app = builder.Build();
 
 

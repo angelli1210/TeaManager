@@ -99,15 +99,19 @@ Repositories/
  BrandRepository.cs
  IBrandRepository.cs
  IProductRepository.cs
+ ISupplierOrderRepository.cs
  ISupplierRepository.cs
  ProductRepository.cs
+ SupplierOrderRepository.cs
  SupplierRepository.cs
 Services/
  BrandService.cs
  IBrandService.cs
  IProductService.cs
+ ISupplierOrderService.cs
  ISupplierService.cs
  ProductService.cs
+ SupplierOrderService.cs
  SupplierService.cs
 
 [metadataReferences]
