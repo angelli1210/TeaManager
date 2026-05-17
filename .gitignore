@@ -1,0 +1,40 @@
+# ===== .NET =====
+**/bin/
+**/obj/
+**/out/
+*.user
+*.suo
+*.userprefs
+
+# ===== Visual Studio =====
+.vs/
+*.vscode/
+.idea/
+
+# ===== Node / Vite =====
+node_modules/
+dist/
+dist-ssr/
+*.local
+
+# ===== Environment / Secrets =====
+*.env
+*.env.local
+appsettings.Development.json
+
+# ===== OS =====
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# ===== Logs =====
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# ===== Build artifacts =====
+*.dll
+*.pdb
+*.exe
+*.cache
