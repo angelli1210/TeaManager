@@ -129,8 +129,8 @@ Browser
 
 ## Seed Data
 
-The database is pre-loaded with:
-- 10 Brands (e.g. Lipston, TeaCoo, LaobanTea)
-- 10 Suppliers
-- 10 Products
-- 10 Supplier Orders
+The database is pre-loaded with sample data:
+- 16 Brands (e.g. Lipston, TeaCoo, LaobanTea)
+- 13 Suppliers
+- 13 Products
+- 11 Supplier Orders
