@@ -8,7 +8,7 @@ A full-stack web application for managing tea products, brands, suppliers, and s
 
 | Layer | Technology |
 |-------|-----------|
-| Frontend | React 19, Vite, Tailwind CSS, React Router DOM, Axios |
+| Frontend | React 19, Vite, Tailwind CSS, React Router DOM, Axios, Recharts |
 | Backend | ASP.NET Core 10.0, Entity Framework Core |
 | Database | SQL Server |
 
@@ -20,7 +20,7 @@ A full-stack web application for managing tea products, brands, suppliers, and s
 - **Brands** — Manage tea brands with contact info, country, and business details
 - **Suppliers** — Manage suppliers with contact and country information
 - **Orders** — Track supplier orders linked to specific products and suppliers
-- **Overview Dashboard** — Real-time stats (total products, brands, suppliers, orders) and recent products table
+- **Overview Dashboard** — Real-time stats, interactive charts (product stock levels, brand distribution by country), and recent products table
 - **Stock Indicators** — Color-coded stock levels (green / yellow / red)
 - **Form Validation** — Client-side and server-side validation with error messages
 - **Global Error Handling** — Standardized JSON error responses from the API
